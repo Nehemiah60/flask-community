@@ -1,0 +1,200 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+body{
+    background-color: whitesmoke;
+}
+
+.navbar{
+    position: inherit;
+}
+
+.sidebar{
+    position: absolute;
+    top: 55;
+    left: 0;
+    height: 100vh;
+    width: 80px;
+    background-color: white;
+    padding: .4rem .8rem;
+    transition: all 0.5s ease;
+
+}
+.sidebar.active ~ .main-content{
+    left: 250px;
+    width: calc(100%-250px);
+}
+.sidebar.active{
+    width: 250px;
+}
+
+.sidebar #btn{
+    position: absolute;
+    color: blueviolet;
+    cursor: pointer;
+    top: .4rem;
+    left: 50%;
+    font-size: 1.2rem;
+    line-height: 50px;
+    transform: translateX(-50%);
+}
+
+.sidebar.active #btn{
+    left: 90%;
+}
+.sidebar .top .logo{
+    color: blueviolet;
+    display: flex;
+    height: 50px;
+    width: 100%;
+    align-items: center;
+    opacity: 0;
+}
+.sidebar.active .top .logo{
+    opacity: 1;
+}
+
+.top .logo i{
+    font-size: 2rem;
+    margin-right: 5px;
+}
+.user{
+    display: flex;
+    align-items: center;
+    margin: 1rem 0;
+}
+
+.bold{
+    font-weight: 400;
+}
+
+.user p{
+    opacity: 1;
+    margin-left: 13px;
+    margin-top: 20px;
+}
+.sidebar p{
+    opacity: 0;
+}
+.sidebar.active p{
+    opacity: 1;
+}
+.user-img{
+    width: 30px;
+    height: 30px;
+    border-radius: 100%;
+    border: 1px solid white;
+}
+
+.sidebar.active ul li{
+    position: relative;
+    list-style-type: none;
+    height: 50px;
+    width: 90%;
+    margin: 0.8rem auto;
+    line-height: 50px;  
+    left: -25%; 
+}
+.sidebar ul li{
+    position: relative;
+    list-style-type: none;
+    height: 50px;
+    width: 250%;
+    margin: 0.8rem auto;
+    line-height: 50px; 
+    padding: 0px 8px 0px 0px; 
+    left: -160%; 
+}
+
+.sidebar ul li a{
+  color: black;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  border-radius: 0.8rem;
+}
+
+.sidebar ul li a:hover{
+    background-color: blueviolet;
+    color: azure;
+   
+}
+
+.sidebar ul li a i{
+min-width: 50px;
+text-align: center;
+height: 50px;
+border-radius: 12px;
+line-height: 50px;
+}
+
+.sidebar .nav-item{
+    opacity: 0;
+}
+
+.sidebar.active .nav-item{
+    opacity: 1;
+}
+
+.sidebar ul li .tooltip{
+    position: absolute;
+    font-weight: 600;
+    font-size: 18px;
+    left: 125px;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 1px 2px 0.1rem 0.5px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    padding: 5px 5px;
+    line-height: 1.8rem;
+    z-index: 20;
+    opacity: 0;
+    background: white;
+    height: fit-content;
+
+}
+.sidebar ul li:hover .tooltip{
+opacity: 1;
+}
+
+.sidebar.active ul li .tooltip{
+    display: none;
+}
+
+.main-content{
+    position: relative;
+    min-height: 100vh;
+    top: 0;
+    left: 80px;
+    transition: all 0.5s ease;
+    width: calc(100% - 80px);
+    padding: 1rem;
+    margin: 0px 0px 0px 50px;
+}
+
+.card{
+    width: 50%;
+    box-shadow: 0px 12px 28px 0px rgba(140, 149, 159, 0.3);
+    padding: 18px;
+    border-radius: 15px;
+}
+
+.reaction {
+    display: flex;
+    align-items: center;
+}
+
+.reaction span {
+    margin-left: 10px; 
+}
+
+.reaction .fa-message{
+   margin-left: 30px;
+}
+
+.reaction .comment-count{
+  margin-left: 250px;
+}

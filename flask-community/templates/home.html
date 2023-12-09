@@ -1,0 +1,100 @@
+{%extends 'nav.html'%}
+
+{%block content%}
+<body>
+    
+<!----- SIDEBAR NAVIGATION-->
+    <div class="sidebar">
+        <div class="top">
+        <div class="logo">
+            <i class="bx bxl-codepen"></i>
+            <span>My Community</span>
+        </div>
+        <i class="bx bx-menu" id="btn"></i>
+        </div>
+        <div class="user">
+            <img src=" {{url_for('static', filename='images/nehemiah.jpg')}} " alt="" class="user-img">
+            <div>
+                <p class="bold"> Nehemiah</p>
+            </div>
+        </div>
+        <ul>
+            <li>
+                <a href="#">
+                    <i class="bx bxs-grid-alt"></i>
+                    <span class="nav-item">Dashboard</span>
+                </a>
+                <span class="tooltip"> Dashboard</span>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="bx bxs-grid-alt"></i>
+                    <span class="nav-item">Home</span>
+                </a>
+                <span class="tooltip"> Home</span>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="bx bxs-grid-alt"></i>
+                    <span class="nav-item">Products</span>
+                </a>
+                <span class="tooltip"> Products</span>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="bx bxs-log-out"></i>
+                    <span class="nav-item">Signout</span>
+                </a>
+                <span class="tooltip"> Signout</span>
+            </li>
+        </ul>
+    </div>
+
+
+<!--- MAIN SECTION TO MAKE POSTS ----->
+
+    <div class="main-content">
+        <div class="container">
+            <h1> Join the Conversation!</h1>
+
+        <div class="card">
+            <p> This is My first post</p>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate, 
+                harum eos veniam eveniet eligendi fuga enim officiis expedita incidunt 
+                obcaecati odio voluptatum unde quibusdam! Itaque provident ad unde amet doloremque?</p>
+
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate, 
+                    harum eos veniam eveniet eligendi fuga enim officiis expedita incidunt 
+                    obcaecati odio voluptatum unde quibusdam! Itaque provident ad unde amet doloremque?</p>
+                    <hr>
+                
+                    <div class="reaction">
+                        <i class="fa-regular fa-heart"></i>
+                        <span>Like</span>
+                      
+                        <i class="fa-regular fa-message"></i>
+                        <span>Comment</span>
+
+                        <span class="comment-count">6 comments</span>
+                    </div>
+
+                   
+        </div>
+
+        </div>
+
+        <div>
+
+        </div>
+    </div>
+</body>
+<script>
+    let btn = document.querySelector('#btn')
+    let sidebar = document.querySelector('.sidebar')
+
+    btn.onclick = function(){
+        sidebar.classList.toggle('active');
+    };
+</script>
+</html>
+{%endblock%}
