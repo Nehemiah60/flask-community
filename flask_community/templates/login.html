@@ -1,0 +1,74 @@
+{%extends 'nav.html'%}
+
+{%block content%}
+<section class="container-login forms">
+<div class="form login">
+    <div class="form-content">
+        <header>Login</header>
+        <form action=" {{ url_for('login') }} " method="POST">
+            {{form.hidden_tag()}}
+
+            <div class="field input-field">
+                {% if form.email.errors %}
+                {{form.email(class='is-invalid', placeholder='Email')}}
+
+                <div class="invalid-feedback">
+                    {% for error in form.email.errors%}
+                    <span class="form-error"> {{error}} </span>
+                    {%endfor%}
+                </div>
+                {% else %}
+                {{form.email(type='email', class='input', placeholder='Email')}}
+                {% endif %}
+
+            </div>
+
+            <div class="field input-field">
+                {% if form.password.errors %}
+                {{form.password(class='is-invalid', placeholder='Input password')}}
+
+                <div class="invalid-feedback">
+                    {% for error in form.password.errors%}
+                    <span class="form-error"> {{error}} </span>
+                    {% endfor %}
+                </div>
+    
+                {% else %}
+                {{form.password(type='password', class='password', placeholder='Input password')}}
+                <i class='bx bx-hide eye-icon show'></i>
+                {% endif %}
+            </div>
+
+            <div class="form-link">
+               <a href="" class="forgot-pass">Forgot password?</a>
+            </div>
+
+            <div class="field button-field">
+                <button>Login</button>
+            </div>
+        </form>
+        <div class="form-link">
+            <span>Already have an account? <a href=" {{url_for('register_user')}} " class="link signup-link">Signup</a></span>
+        </div>
+    </div>
+    <div class="line"></div>
+
+    <div class="media-options">
+        <a href="" class="field facebook">
+            <i class='bx bxl-facebook facebook-icon'></i>
+            <span>Login with Facebook</span>
+        </a>
+    </div>
+
+    <div class="media-options">
+        <a href="" class="field google">
+            <img src=" {{ url_for('static', filename='images/google.png') }} " alt="" class="google-img">
+            <span>Login with Google</span>
+        </a>
+    </div>
+</div>
+
+</section>
+
+<script src=" {{ url_for('static', filename='js/app.js')}} "></script>
+{%endblock%}
