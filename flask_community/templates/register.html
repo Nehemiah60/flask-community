@@ -1,0 +1,139 @@
+{%extends 'nav.html'%}
+
+{%block content%}
+<section class="container forms">
+    <div class="form login">
+        <div class="form-content">
+            <header>Login</header>
+            <form action="">
+                <div class="field input-field">
+                    <input type="email" class="input">
+                </div>
+
+                <div class="field input-field">
+                    <input type="password" class="password">
+                    <i class='bx bx-hide eye-icon show'></i>
+                </div>
+
+                <div class="form-link">
+                   <a href="" class="forgot-pass">Forgot password?</a>
+                </div>
+
+                <div class="field button-field">
+                    <button>Login</button>
+                </div>
+            </form>
+            <div class="form-link">
+                <span>Already have an account? <a href="" class="link signup-link">Signup</a></span>
+            </div>
+        </div>
+        <div class="line"></div>
+
+        <div class="media-options">
+            <a href="" class="field facebook">
+                <i class='bx bxl-facebook facebook-icon'></i>
+                <span>Login with Facebook</span>
+            </a>
+        </div>
+
+        <div class="media-options">
+            <a href="" class="field google">
+                <img src=" {{ url_for('static', filename='images/google.png') }} " alt="" class="google-img">
+                <span>Login with Google</span>
+            </a>
+        </div>
+    </div>
+
+    <!---REGISTER FORM-->
+    <div class="form signup">
+        <div class="form-content">
+            <header>Signup</header>
+            <form action=" {{ url_for('register_user') }} " method="POST">
+                {{form.hidden_tag()}}
+
+                <div class="field input-field">
+                    {% if form.username.errors %}
+                    {{form.username(class='is-invalid', placeholder='Username')}}
+
+                    <div class="invalid-feedback">
+                        {% for error in form.username.errors%}
+                        <span> {{error}} </span>
+                        {%endfor%}
+                    </div>
+                    {% else %}
+
+                    {{form.username(type='text', class='input', placeholder='Username')}}
+
+                    {%endif%}
+                </div>
+
+                <div class="field input-field">
+                    {% if form.email.errors %}
+                    {{form.email(class='is-invalid', placeholder='Email')}}
+                    <div class="invalid-feedback">
+                        {% for error in form.email.errors%}
+                        <span> {{error}} </span>
+                        {%endfor%}
+                    </div>
+                    {% else %}
+                    {{form.email(type='email', class='input', placeholder='Email')}}
+                    {% endif %}
+                </div>
+
+                <div class="field input-field">
+                    {% if form.password.errors %}
+                    {{form.password(class='is-invalid', placeholder='Create password')}}
+                    <div class="invalid-feedback">
+                        {% for error in form.password.errors%}
+                        <span> {{error}} </span>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    {{form.password(type='password', class='password', placeholder='Create password')}}
+                    <i class='bx bx-hide eye-icon show'></i>
+                    {% endif %}
+                </div>
+
+                <div class="field input-field">
+                    {% if form.confirm_password.errors %}
+                    {{form.confirm_password(class='is-invalid', placeholder='Create password')}}
+                    <div class="invalid-feedback">
+                        {% for error in form.confirm_password.errors%}
+                        <span> {{error}} </span>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    {{form.confirm_password(type='password', class='password', placeholder='Confirm password' )}}
+                    <i class='bx bx-hide eye-icon show'></i>
+                    {% endif %}
+                </div>
+
+
+                <div class="field button-field">
+                    {{form.submit(class='btn')}}
+                </div>
+            </form>
+            <div class="form-link">
+                <span>Already have an account? <a href="" class="link login-link">Login</a></span>
+            </div>
+        </div>
+        <div class="line"></div>
+
+        <div class="media-options">
+            <a href="" class="field facebook">
+                <i class='bx bxl-facebook facebook-icon'></i>
+                <span>Login with Facebook</span>
+            </a>
+        </div>
+
+        <div class="media-options">
+            <a href="" class="field google">
+                <img src=" {{ url_for('static', filename='images/google.png') }} " alt="" class="google-img">
+                <span>Login with Google</span>
+            </a>
+        </div>
+    </div>
+</section>
+
+<script src=" {{ url_for('static', filename='js/app.js')}} "></script>
+{%endblock%}
