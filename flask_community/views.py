@@ -1,10 +1,12 @@
 
-from flask_community import app, bcrypt, db
-from flask import render_template
-from flask_community.forms import RegisterUserForm
+from flask_community import app, bcrypt, db, login_manager
+from flask import render_template, url_for, redirect, flash
+from flask_community.forms import RegisterUserForm, LoginForm
 from flask_community.models import User
+from flask_login import login_user, login_required, current_user, logout_user
 
-@app.route('/')
+@app.route('/logout')
+@login_required
 def home():
     return render_template('home.html')
 
@@ -27,3 +29,26 @@ def register_user():
         finally:
             db.session.close()
     return render_template('register.html', form=form)
+
+@app.route('/login', methods=['POST', 'GET'])
+def login():
+    form = LoginForm()
+    if form.validate_on_submit():
+        try:
+            user = User.query.filter_by(email=form.email.data).first()
+            if user and bcrypt.check_password_hash(user.password, form.password.data):
+                login_user(user)
+                return redirect(url_for('home'))
+            else:
+                flash('Login Attempt Failed. Check Email and Password', 'danger')
+                
+        except:
+            flash('Unexpected error occured')
+
+    return render_template('login.html', form=form)
+
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user
+    return redirect(url_for('login'))

@@ -20,10 +20,15 @@ document.addEventListener('DOMContentLoaded', function() {
 function togglePasswordVisibility(passwordField, showElement) {
     if (passwordField.type === 'password') {
         passwordField.type = 'text';
-        showElement.classList.replace('bx-hide', 'bx-show');
+        showElement.classList.replace('fa-eye-slash', 'fa-eye');
     } else {
         passwordField.type = 'password';
-        showElement.classList.replace('bx-show', 'bx-hide');
+        showElement.classList.replace('fa-eye', 'fa-eye-slash');
     }
 }
 
+//User profile submenu dropdown
+function toggleMenu(){
+const subMenu = document.getElementById('subMenu');
+subMenu.classList.toggle('open-menu');
+}
