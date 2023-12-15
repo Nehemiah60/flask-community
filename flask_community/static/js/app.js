@@ -32,3 +32,11 @@ function toggleMenu(){
 const subMenu = document.getElementById('subMenu');
 subMenu.classList.toggle('open-menu');
 }
+
+//TOGGLING THE SIDEBAR
+let btn = document.querySelector('#btn')
+let sidebar = document.querySelector('.sidebar')
+
+btn.onclick = function(){
+    sidebar.classList.toggle('active');
+};

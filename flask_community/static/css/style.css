@@ -1,21 +1,15 @@
-*{
+
+body{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-body{
     background-color: whitesmoke;
 }
 
-.navbar{
-    position: inherit;
-}
-
 .sidebar{
-    position: absolute;
-    top: 55;
-    left: 0;
+    top: 65;
+    left: 10;
     height: 100vh;
     width: 80px;
     background-color: white;
@@ -24,32 +18,29 @@ body{
 
 }
 
-.sidebar.active ~ .main-content{
-    left: 250px;
-    width: calc(100%-250px);
-}
 .sidebar.active{
-    width: 250px;
+    width: 230px;
 }
 
 .sidebar #btn{
-    position: absolute;
+   position: absolute;
     color: blueviolet;
     cursor: pointer;
-    top: .4rem;
-    left: 50%;
-    font-size: 1.2rem;
+    top: 50px;
+    left: 2.8%;
+    font-size: 25px;
     line-height: 50px;
     transform: translateX(-50%);
 }
 
 .sidebar.active #btn{
-    left: 90%;
+    left: 16.3%;
+    cursor: pointer;
 }
 .sidebar .top .logo{
     color: blueviolet;
     display: flex;
-    height: 50px;
+    height: 25px;
     width: 100%;
     align-items: center;
     opacity: 0;
@@ -166,21 +157,50 @@ opacity: 1;
 }
 
 .main-content{
-    position: relative;
+    position: absolute;
     min-height: 100vh;
     top: 0;
-    left: 80px;
+    left: 20%;
     transition: all 0.5s ease;
-    width: calc(100% - 80px);
-    padding: 1rem;
-    margin: 0px 0px 0px 90px;
+    margin: 80px 0px 0px 0px;
+    display:flex;
 }
 
 .card{
     width: 50%;
+    height: 38%;
     box-shadow: 0px 12px 28px 0px rgba(140, 149, 159, 0.3);
     padding: 18px;
     border-radius: 15px;
+    margin-top: 100px;
+    margin-right: 120px;
+
+}
+.add-post{
+    position: absolute;
+    width: 50%;
+    height: 50px;
+    box-shadow: 0px 12px 28px 0px rgba(140, 149, 159, 0.3);
+    padding: 18px;
+    margin: 5px;
+    border-radius: 10px;
+    background-color: white;
+}
+
+.post-card{
+    display: flex;
+    align-items: center;
+}
+
+.post-card img{
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+}
+
+.post-card p{
+    font-weight: 400;
+    color: #525252
 }
 
 .reaction {
@@ -197,7 +217,7 @@ opacity: 1;
 }
 
 .reaction .comment-count{
-  margin-left: 250px;
+  margin-left: 230px;
 }
 
 
@@ -400,3 +420,98 @@ a.google span{
     margin-bottom: 0px;
     border-radius: 10px;
 }
+
+/*SYLING THE PROFILE DROP DOWN MENU*/
+
+.sub-menu-wrap{
+    position: absolute;
+    top: 100%;
+    right: 2%;
+    width: 250px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s;
+}
+
+.sub-menu-wrap.open-menu{
+    max-height: 400px;
+}
+
+.sub-menu{
+    background: white;
+    padding: 20px;
+    margin: 10px;
+}
+
+.user-info{
+    display: flex;
+    align-items: center;
+}
+
+.user-info h6{
+    font-weight: 100;
+    font-family: sans-serif;
+    font-size: 15px;
+}
+
+.sub-menu hr{
+    border: 0;
+    height: 1px;
+    width: 100%;
+    background: black;
+    margin: 15px 0 10px;
+}
+
+.user-info img{
+    width: 25px;
+    height: 20px;
+    border-radius: 50%;
+    margin-right: 15px;
+    top: 10%;
+}
+.container-fluid img{
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    margin-right: 40px;
+    top: 10%;
+}
+.sub-menu-link{
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #525252;
+    margin: 12px 0;
+}
+
+.sub-menu-link p {
+    width: 100%;
+    padding: 10px 0px 0px 15px;
+   
+}
+
+.user-pic{
+    width: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    margin-left: 30px;
+    align-items: center;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

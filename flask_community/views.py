@@ -1,14 +1,18 @@
 
+from datetime import datetime
 from flask_community import app, bcrypt, db, login_manager
 from flask import render_template, url_for, redirect, flash
 from flask_community.forms import RegisterUserForm, LoginForm
-from flask_community.models import User
+from flask_community.models import User, Post
 from flask_login import login_user, login_required, current_user, logout_user
 
-@app.route('/logout')
+
+@app.route('/home')
 @login_required
 def home():
-    return render_template('home.html')
+    posts = Post.query.all()
+    now = datetime.utcnow()
+    return render_template('home.html', posts=posts, now=now)
 
 @app.route('/register', methods=['POST', 'GET'])
 def register_user():
@@ -40,8 +44,7 @@ def login():
                 login_user(user)
                 return redirect(url_for('home'))
             else:
-                flash('Login Attempt Failed. Check Email and Password', 'danger')
-                
+                flash('Login Attempt Failed. Check Email and Password', 'danger')  
         except:
             flash('Unexpected error occured')
 
@@ -50,5 +53,10 @@ def login():
 @app.route('/logout')
 @login_required
 def logout():
-    logout_user
+    logout_user()
+    return redirect(url_for('login'))
+
+@app.errorhandler(401)
+def unauthorized(error):
+    flash('You mush be logged in to access the page. Login here', 'danger')
     return redirect(url_for('login'))
