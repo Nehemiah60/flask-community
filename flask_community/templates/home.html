@@ -1,8 +1,8 @@
 {%extends 'nav.html'%}
 
-{%block content%}
+
 <body>
-    
+{%block content%}  
 <!----- SIDEBAR NAVIGATION-->
 
     <div class="sidebar">
@@ -42,31 +42,48 @@
                 <span class="tooltip"> Products</span>
             </li>
             <li>
-                <a href="#">
+                {% if current_user.is_authenticated %}
+                <a href=" {{ url_for('logout')}} ">
                     <i class="bx bxs-log-out"></i>
                     <span class="nav-item">Signout</span>
                 </a>
+                {% endif %}
                 <span class="tooltip"> Signout</span>
+               
             </li>
+            
         </ul>
-    </div>
+   </div> 
 
 
 <!--- MAIN SECTION TO MAKE POSTS ----->
 
     <div class="main-content">
-        <div class="container-">
-            <h1> Join the Conversation!</h1>
-
+        <div class="add-post"></div>
+    {% for post in posts %}
         <div class="card">
-            <p> This is My first post</p>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate, 
-                harum eos veniam eveniet eligendi fuga enim officiis expedita incidunt 
-                obcaecati odio voluptatum unde quibusdam! Itaque provident ad unde amet doloremque?</p>
+            <div class="post-card">
+                <img src=" {{ url_for('static', filename='images/nehemiah.jpg') }} " alt="">
+                
+                    <p class="p-1"> <strong> {{ post.author.username }} </strong> </p> 
+                    <p>
+                        {% set time_difference = ( now - post.date_created).total_seconds() %}
+                        {% if time_difference | round < 3600 %}
+                        {{ (time_difference/60) | round | int }} seconds ago
 
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate, 
-                    harum eos veniam eveniet eligendi fuga enim officiis expedita incidunt 
-                    obcaecati odio voluptatum unde quibusdam! Itaque provident ad unde amet doloremque?</p>
+                        {% elif time_difference | round < 86400 %}
+                        {{ (time_difference / 3600) | round | int }} hours ago
+      {% else %}
+        {{ post.date_created.strftime('%Y-%m-%d %H:%M:%S') }}
+      {% endif %}
+
+                    </p>
+            </div>
+ 
+            
+            <p class="me-2"> <strong>{{post.title}} </strong></p>
+            <p> {{post.content}}  </p>
+        
                     <hr>
                 
                     <div class="reaction">
@@ -77,25 +94,21 @@
                         <span>Comment</span>
 
                         <span class="comment-count">6 comments</span>
-                    </div>
-
-                   
+                    </div>   
+         
         </div>
-
+        {% endfor %}  
         </div>
+      
 
         <div>
 
         </div>
-    </div>
-</body>
-<script>
-    let btn = document.querySelector('#btn')
-    let sidebar = document.querySelector('.sidebar')
+  
 
-    btn.onclick = function(){
-        sidebar.classList.toggle('active');
-    };
-</script>
-</html>
+ 
+
+</body>
+<script src=" {{url_for('static', filename='js/app.js') }} "></script>
 {%endblock%}
+</html>

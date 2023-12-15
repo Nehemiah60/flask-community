@@ -4,7 +4,7 @@ from flask_login import UserMixin
 
 @login_manager.user_loader
 def load_user(user_id):
-    return User.query.get_or_404(int(user_id))
+    return User.query.get(int(user_id))
 
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
@@ -13,6 +13,17 @@ class User(UserMixin, db.Model):
     email         = db.Column(db.String(100), index=True, unique=True)
     password      = db.Column(db.String(100))
     joined_date   = db.Column(db.DateTime, default=datetime.utcnow)
+    post          = db.relationship('Post', backref='author', lazy=True)
 
     def __repr__(self):
         return f"User( '{self.username}', '{self.email}')"
+
+class Post(db.Model):
+    id            = db.Column(db.Integer, primary_key=True)
+    title         = db.Column(db.String(100), nullable=False)
+    content       = db.Column(db.Text, nullable=False)
+    date_created  = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    user_id       = db.Column(db.Integer, db.ForeignKey(User.id), nullable=False)
+
+    def __repr__(self):
+        return f"Post('{self.title}', '{self.date_created}')"
