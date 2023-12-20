@@ -1,0 +1,55 @@
+{%extends 'nav.html'%}
+
+{%block content%}
+<section class="container-login forms">
+<div class="form update">
+    <div class="form-content">
+        <header>New Post</header>
+        <form action=" {{ url_for('new_post') }} " method="POST">
+            {{form.hidden_tag()}}
+
+            <div class="field input-field">
+                {% if form.title.errors %}
+                {{form.title(class='is-invalid', placeholder='Title')}}
+
+                <div class="invalid-feedback">
+                    {% for error in form.title.errors%}
+                    <span class="form-error"> {{error}} </span>
+                    {%endfor%}
+                </div>
+                {% else %}
+                {{form.title(type='title', class='input', placeholder='Title')}}
+                {% endif %}
+
+            </div>
+
+            <div class="field input-field">
+                {% if form.content.errors %}
+                {{form.content(class='is-invalid', placeholder='Say something...')}}
+
+                <div class="invalid-feedback">
+                    {% for error in form.content.errors%}
+                    <span class="form-error"> {{error}} </span>
+                    {% endfor %}
+                </div>
+    
+                {% else %}
+                {{form.content(type='content', class='content', placeholder='Say something...')}}
+               
+                {% endif %}
+            </div>
+
+            <div class="field button-field">
+                {{form.submit(class='btn btn-update')}}
+            </div>
+
+        </form>
+     
+    </div>
+   
+</div>
+
+</section>
+
+<script src=" {{ url_for('static', filename='js/app.js')}} "></script>
+{%endblock%}

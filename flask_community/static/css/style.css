@@ -163,26 +163,26 @@ opacity: 1;
     left: 20%;
     transition: all 0.5s ease;
     margin: 80px 0px 0px 0px;
-    display:flex;
 }
 
+/*STYLING POSTS CARD*/
+
 .card{
-    width: 50%;
-    height: 38%;
+
+    width: 58%;
+    /* height: 38%; */
     box-shadow: 0px 12px 28px 0px rgba(140, 149, 159, 0.3);
     padding: 18px;
     border-radius: 15px;
-    margin-top: 100px;
-    margin-right: 120px;
+    margin: 50px 0px 30px 20px;
 
 }
 .add-post{
-    position: absolute;
     width: 50%;
     height: 50px;
     box-shadow: 0px 12px 28px 0px rgba(140, 149, 159, 0.3);
     padding: 18px;
-    margin: 5px;
+    margin: 15px 0px 15px 20px;
     border-radius: 10px;
     background-color: white;
 }
@@ -196,6 +196,13 @@ opacity: 1;
     width: 28px;
     height: 28px;
     border-radius: 50%;
+}
+
+.card-icons{
+   display: flex;
+   align-items: center;
+   margin:-7% 0 0 90%;
+   cursor: pointer;
 }
 
 .post-card p{
@@ -217,7 +224,7 @@ opacity: 1;
 }
 
 .reaction .comment-count{
-  margin-left: 230px;
+  margin-left: 320px;
 }
 
 
@@ -497,6 +504,103 @@ a.google span{
     margin-left: 30px;
     align-items: center;
 }
+
+/* STYLING THE POPUP TO EDIT AND DELETE POSTS*/
+
+.dropdown-menu{
+    width: 40%;
+    right: 1%;
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    outline: none;
+    background:#fff;
+    font-weight: 600;
+    box-shadow: 0 29px 52px rgba(0,0,0,0.40), 0 25px 16px rgba(0,0,0,0.20);
+}
+.delete-details {
+    display: flex;
+    align-items: center; /* Align items vertically in the center */
+    padding: 0 0 0 10px;
+}
+
+.delete-details h6 {
+    margin: 18px; /* Add some spacing between the icon and text */
+}
+
+.edit-details {
+    display: flex;
+    align-items: center; /* Align items vertically in the center */
+    padding: 0 0 0 10px;
+}
+
+.edit-details h6 {
+    margin: 18px; /* Add some spacing between the icon and text */
+}
+
+.bookmark-details {
+    display: flex;
+    align-items: center; /* Align items vertically in the center */
+    padding: 0 0 0 10px;
+}
+.bookmark-details h6 {
+    margin: 18px; /* Add some spacing between the icon and text */
+}
+
+/* Add the following style to your CSS */
+.unselectable {
+    user-select: none;
+}
+
+.dropdown-menu .delete-details:hover,
+.dropdown-menu .edit-details:hover,
+.dropdown-menu .bookmark-details:hover {
+    background-color:blueviolet; 
+    border-radius: 15px;
+    color: #fff;
+    width: 80%;
+    height: 45px;
+}
+
+
+/**UPDATE AND DELETE FORMS**/
+.field .content{
+    background-color: #dddd;
+    color: #525252;
+    padding: 25px;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    width: 100%;
+    height: 150px;
+}
+.field .title{
+    background-color: #dddd;
+    color: #525252;
+    padding: 25px;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    width: 100%;
+    
+}
+.update{
+    border-radius: 10px;
+    height: 400px;
+    padding: 30px;
+    width: 40%;
+    background: white;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+
+}
+.field .btn-update{
+    margin: 100px 0 0 0;
+    width: 100px
+}
+
+
+
+
 
 
 

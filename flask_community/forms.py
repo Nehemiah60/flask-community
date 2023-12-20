@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import (StringField, PasswordField,
-                    SubmitField)
+                    SubmitField, TextAreaField)
 from wtforms.validators import (DataRequired, Email, 
                                 EqualTo, Length, ValidationError)
 from flask_community.models import User
@@ -25,3 +25,14 @@ class LoginForm(FlaskForm):
     email            = StringField('Email', validators=[DataRequired(), Email()])
     password         = PasswordField('Password', validators=[DataRequired()])
     submit           = SubmitField('Signup')
+
+class PostForm(FlaskForm):
+    title            = StringField('Title', validators=[DataRequired()])
+    content          = TextAreaField('Content', validators=[DataRequired()])
+    submit           = SubmitField('Post')
+
+class UpdatePostForm(FlaskForm):
+    title            = StringField('Title', validators=[DataRequired()])
+    content          = TextAreaField('Content', validators=[DataRequired()])
+    submit           = SubmitField('Update')
+

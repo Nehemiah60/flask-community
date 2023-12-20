@@ -5,6 +5,7 @@
 {%block content%}  
 <!----- SIDEBAR NAVIGATION-->
 
+
     <div class="sidebar">
         <div class="top">
         <div class="logo">
@@ -59,31 +60,74 @@
 <!--- MAIN SECTION TO MAKE POSTS ----->
 
     <div class="main-content">
-        <div class="add-post"></div>
+        <div class="add-post"> <a href=" {{url_for('new_post') }} "> <p>new post</p></a></div>
     {% for post in posts %}
-        <div class="card">
+    
+        <div class="card ">
             <div class="post-card">
                 <img src=" {{ url_for('static', filename='images/nehemiah.jpg') }} " alt="">
                 
                     <p class="p-1"> <strong> {{ post.author.username }} </strong> </p> 
+                    
                     <p>
-                        {% set time_difference = ( now - post.date_created).total_seconds() %}
-                        {% if time_difference | round < 3600 %}
-                        {{ (time_difference/60) | round | int }} seconds ago
+                        {% set time_difference = (now - post.date_created).total_seconds() %}
+                        {% set minutes = (time_difference / 60) | round | int %}
+                        {% set hours = (time_difference / 3600) | round | int %}
+                        {% set days = (time_difference / 86400) | round | int %}
 
-                        {% elif time_difference | round < 86400 %}
-                        {{ (time_difference / 3600) | round | int }} hours ago
-      {% else %}
-        {{ post.date_created.strftime('%Y-%m-%d %H:%M:%S') }}
-      {% endif %}
-
-                    </p>
+                        {% if minutes < 1 %}
+                            Just now
+                        {% elif minutes < 60 %}
+                            {{ minutes }} minute{{ 's' if minutes > 1 else '' }} ago
+                        {% elif hours < 24 %}
+                            {{ hours }} hour{{ 's' if hours > 1 else '' }} ago
+                        {% elif days < 1 %}
+                            Today
+                        {% elif days < 2 %}
+                            Yesterday
+                        {% elif days < 30 %}
+                            {{ days }} day{{ 's' if days > 1 else '' }} ago
+                        {% elif days < 365 %}
+                            {{ post.date_created.strftime('%b %d') }}
+                        {% else %}
+                            {{ post.date_created.strftime('%Y-%m-%d') }}
+                        {% endif %}
+                    </p> 
+               
             </div>
- 
-            
+            <div class="card-icons">
+                <span><i class="fa-regular fa-bookmark me-2"></i></span>
+                <span class="icon-dropdown" onclick="toggleDropdown('{{ post.id }}')">
+                    <i class="fa-solid fa-ellipsis ms-2"></i>
+                    <div class="dropdown-menu" id="dropdown-{{ post.id }}">
+                        {% if post.author == current_user%}
+                        <div class="delete-details">
+                            <i class="fa-solid fa-trash-can"></i> 
+                            <h6>Delete</h6>
+                        </div>
+
+                        <div class="edit-details" id="editDetailsButton{{ post.id }}">
+                            <i class="fa-solid fa-pen"  ></i>
+                            <h6 >Edit</h6>
+                        </div>
+                        <div class="bookmark-details">
+                            <i class="fa-solid fa-bookmark"></i>
+                            <h6>Bookmark</h6>
+                        </div>
+                          {%else%}
+                        <div class="bookmark-details">
+                            <i class="fa-solid fa-bookmark"></i>
+                            <h6>Bookmark</h6>
+                        </div>
+                        {%endif%}
+                    </div>
+                </span>
+            </div>
+        
+            <br>
+
             <p class="me-2"> <strong>{{post.title}} </strong></p>
             <p> {{post.content}}  </p>
-        
                     <hr>
                 
                     <div class="reaction">
@@ -95,20 +139,76 @@
 
                         <span class="comment-count">6 comments</span>
                     </div>   
-         
         </div>
+       
+  <!-- Modal -->
+  <div class="modal fade" id="editDetailsModal{{ post.id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" 
+  aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered ">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-center" id="staticBackdropLabel">Update Post</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form action=" {{ url_for('update_post', post_id=post.id) }} ", method="POST">
+          {{form.hidden_tag()}}
+          <div class="field input-field mt-2">
+            {% if form.title.errors %}
+            {{form.title(class='is-invalid', placeholder='Title')}}
+
+            <div class="invalid-feedback">
+                {% for error in form.title.errors%}
+                <span class="form-error"> {{error}} </span>
+                {%endfor%}
+            </div>
+            {% else %}
+            {{form.title(type='title', class='title', placeholder='Title')}}
+            {% endif %}
+        </div>
+
+        <div class="field input-field mt-3">
+            {% if form.content.errors %}
+            {{form.content(class='is-invalid', placeholder='Say something...')}}
+
+            <div class="invalid-feedback">
+                {% for error in form.content.errors%}
+                <span class="form-error"> {{error}} </span>
+                {% endfor %}
+            </div>
+
+            {% else %}
+            {{form.content(type='content', class='content', placeholder='Say something...')}}
+            {% endif %}
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+            {{form.submit(class='btn btn-primary', type='submit')}}
+          </div>
+          </form>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <!---BOOTSTRAP POPUP MODAL FOR UPDATING AND DELETING MODAL---> 
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        document.getElementById('editDetailsButton{{ post.id }}').addEventListener('click', function () {
+            var myModal = new bootstrap.Modal(document.getElementById('editDetailsModal{{ post.id }}'));
+            myModal.show();
+        });
+    });
+</script>
         {% endfor %}  
         </div>
-      
-
         <div>
-
         </div>
-  
-
- 
-
+        
 </body>
 <script src=" {{url_for('static', filename='js/app.js') }} "></script>
+
 {%endblock%}
 </html>
