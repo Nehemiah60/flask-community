@@ -1,0 +1,54 @@
+<div class="modal fade 
+  " id="editDetailsModal{{ post.id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered ">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">Update Post</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form action="{{ url_for('update_post', post_id=post.id) }}" method="POST">
+                {{form.hidden_tag()}}
+
+                <div class="field input-field mt-2">
+                    {% if form.title.errors %}
+                    {{form.title(class='is-invalid', placeholder='Title')}}
+    
+                    <div class="invalid-feedback">
+                        {% for error in form.title.errors%}
+                        <span class="form-error"> {{error}} </span>
+                        {%endfor%}
+                    </div>
+                    {% else %}
+                    {{form.title(type='title', class=' title', placeholder='Title')}}
+                    {% endif %}
+    
+                </div>
+    
+                <div class="field input-field mt-3">
+                    {% if form.content.errors %}
+                    {{form.content(class='is-invalid', placeholder='Say something...')}}
+    
+                    <div class="invalid-feedback">
+                        {% for error in form.content.errors%}
+                        <span class="form-error"> {{error}} </span>
+                        {% endfor %}
+                    </div>
+        
+                    {% else %}
+                    {{form.content(type='content', class='content', placeholder='Say something...')}}
+                   
+                    {% endif %}
+                </div>
+        
+                <button type="button" class="btn btn-secondary mt-3" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary mt-3">Save Changes</button>
+            </form>
+        </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script src=" {{ url_for('static', filename='js/app.js')}} "></script>
