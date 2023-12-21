@@ -68,32 +68,25 @@ document.addEventListener('click', function(event) {
     }
 });
 
-// UPDATE MODAL
-document.addEventListener("DOMContentLoaded", function () {
-    document.getElementById('editDetailsButton').addEventListener('click', function () {
-        var myModal = new bootstrap.Modal(document.getElementById('editDetailsModal'));
-        myModal.show();
-    });
-});
-
-document.addEventListener("DOMContentLoaded", function () {
-    document.getElementById('editDetailsButton').addEventListener('click', function () {
-        // Load modal content dynamically using AJAX
-        fetch('path/to/update-modal-content.html')  // Replace with the actual path
-            .then(response => response.text())
-            .then(html => {
-                document.getElementById('modalContainer').innerHTML = html;
-
-                // Show the modal
-                var myModal = new bootstrap.Modal(document.getElementById('editDetailsModal'));
-                myModal.show();
-            })
-            .catch(error => {
-                console.error('Error loading modal content:', error);
-            });
-    });
-});
 
 
 
+//A POPUP FOR A COMMENT
+function toggleCommentInput(postId) {
+    var commentInput = document.getElementById('commentInput' + postId);
+    if (commentInput) {
+        if (commentInput.style.display === 'none' || commentInput.style.display === '') {
+            commentInput.style.display = 'block';
+        } else {
+            commentInput.style.display = 'none';
+        }
+    } else {
+        console.error('Comment input not found for post ID ' + postId);
+    }
+}
 
+function postComment(postId) {
+    console.log('Posting comment for post ID ' + postId);
+    // Implement your logic to post the comment for the specific post
+    // You can use AJAX to send the comment to the server and update the UI accordingly
+}
