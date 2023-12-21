@@ -1,7 +1,7 @@
 
 from datetime import datetime
 from flask_community import app, bcrypt, db, login_manager
-from flask import render_template, url_for, redirect, flash, abort, request
+from flask import render_template, url_for, redirect, flash, abort, request, jsonify
 from flask_community.forms import RegisterUserForm, LoginForm, PostForm,UpdatePostForm
 from flask_community.models import User, Post
 from flask_login import login_user, login_required, current_user, logout_user
@@ -76,7 +76,8 @@ def new_post():
     return render_template('create_post.html', form=form)
 
 #Delete Post...A user is the only one cable to delete a post
-@app.route('/delete_post/<int:post_id>', methods=['GET', 'POST'])
+@app.route('/delete_post/<int:post_id>/delete', methods=['POST'])
+@login_required
 def delete_post(post_id):
     try: 
         post = Post.query.get_or_404(post_id)
@@ -84,15 +85,16 @@ def delete_post(post_id):
             abort(403)
         db.session.delete(post)
         db.session.commit()
-        return redirect(url_for('home'))
+        flash('Your post has been deleted', 'success')
     except:
         db.session.rollback
     finally:
         db.session.close()
-    return render_template('home.html', post=post)
+        return redirect(url_for('home'))
+     
 
 #Update Post
-@app.route('/update_post/<int:post_id>', methods=['GET', 'POST'])
+@app.route('/post/<int:post_id>/update_post', methods=['GET', 'POST'])
 @login_required
 def update_post(post_id):
     form = UpdatePostForm()
@@ -112,6 +114,11 @@ def update_post(post_id):
         form.title.data = post.title
         form.content.data = post.content
     return render_template('home.html', form=form)
+
+@app.route('/api/get_post/<int:post_id>', methods=['GET', 'POST'])
+def get_post(post_id):
+    post = Post.query.get_or_404(post_id)
+    return jsonify({'title': post.title, 'content': post.content})
 
 
 @app.errorhandler(401)
