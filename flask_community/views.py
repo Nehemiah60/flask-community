@@ -2,8 +2,9 @@
 from datetime import datetime
 from flask_community import app, bcrypt, db, login_manager
 from flask import render_template, url_for, redirect, flash, abort, request, jsonify
-from flask_community.forms import RegisterUserForm, LoginForm, PostForm,UpdatePostForm
-from flask_community.models import User, Post
+from flask_community.forms import (RegisterUserForm, LoginForm, PostForm, 
+                                    CommentForm,UpdatePostForm)
+from flask_community.models import User, Post, Comment
 from flask_login import login_user, login_required, current_user, logout_user
 
 
@@ -11,9 +12,14 @@ from flask_login import login_user, login_required, current_user, logout_user
 @login_required
 def home():
     form = UpdatePostForm()
+    comment_form = CommentForm()
     posts = Post.query.all()
+    #Get comments related to a specific post
+    comments_count = {post.id: Comment.query.filter_by(post_id=post.id).count() for post in posts}
     now = datetime.utcnow()
-    return render_template('home.html', posts=posts, now=now, form=form)
+    return render_template('home.html', posts=posts, now=now, 
+                            form=form, comment_form=comment_form,
+                            comments_count=comments_count)
 
 @app.route('/register', methods=['POST', 'GET'])
 def register_user():
@@ -65,7 +71,7 @@ def new_post():
         try:
             post = Post( title = form.title.data,
                          content = form.content.data,
-                         author  = current_user
+                         comment_author  = current_user
             )
             db.session.add(post)
             db.session.commit()
@@ -115,6 +121,27 @@ def update_post(post_id):
         form.content.data = post.content
     return render_template('home.html', form=form)
 
+@app.route('/add_comments/<int:post_id>', methods=['GET', 'POST'])
+@login_required
+def add_comment(post_id):
+    post        = Post.query.get_or_404(post_id)
+    comment_form = CommentForm()
+    if comment_form.validate_on_submit():
+        try:
+            comment = Comment(
+                content  = comment_form.content.data,
+                comment_author   = current_user,
+                post          = post
+            )
+            db.session.add(comment)
+            db.session.commit()
+            return redirect(url_for('home'))
+        except:
+            db.session.rollback()    
+    return render_template('home.html', comment_form=comment_form)
+
+
+#POPULATING THE FORM WITH DATA DURING UPDATES
 @app.route('/api/get_post/<int:post_id>', methods=['GET', 'POST'])
 def get_post(post_id):
     post = Post.query.get_or_404(post_id)

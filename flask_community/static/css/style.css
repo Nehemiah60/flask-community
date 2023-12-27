@@ -603,13 +603,40 @@ a.google span{
 }
 
 /***STYLING THE COMMENT SECTION*/
-.comment-input {
-    display: none;
-  }
 
 .fa-message:hover{
     cursor: pointer;
 }
+
+.comment-form {
+    display: none;  /* Initially hide the comment form */
+}
+
+.comment-form.hidden {
+    display: block !important;  /* Show the comment form when the 'hidden' class is toggled */
+}
+
+
+.comment{
+    background-color: #dddd;
+    color: #525252;
+    padding: 5px;
+    border-radius: 18px;
+    border: none;
+    outline: none;
+    width: 100%;
+    height: 100px;
+    margin: 10px 0px 10px 0px;
+}
+
+.comment-btn{
+    border-radius: 20px;
+    width: 10%;
+    height: 25px;
+    padding: 0px 0px 15px 0px;
+    font-weight: 500;
+}
+
 
 
 

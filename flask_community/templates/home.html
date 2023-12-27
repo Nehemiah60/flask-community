@@ -69,6 +69,30 @@
                 
                     <p class="p-1"> <strong> {{ post.author.username }} </strong> </p> 
                     
+                    <p>
+                        {% set time_difference = (now - post.date_created).total_seconds() %}
+                        {% set minutes = (time_difference / 60) | round | int %}
+                        {% set hours = (time_difference / 3600) | round | int %}
+                        {% set days = (time_difference / 86400) | round | int %}
+
+                        {% if minutes < 1 %}
+                            Just now
+                        {% elif minutes < 60 %}
+                            {{ minutes }} minute{{ 's' if minutes > 1 else '' }} ago
+                        {% elif hours < 24 %}
+                            {{ hours }} hour{{ 's' if hours > 1 else '' }} ago
+                        {% elif days < 1 %}
+                            Today
+                        {% elif days < 2 %}
+                            Yesterday
+                        {% elif days < 30 %}
+                            {{ days }} day{{ 's' if days > 1 else '' }} ago
+                        {% elif days < 365 %}
+                            {{ post.date_created.strftime('%b %d') }}
+                        {% else %}
+                            {{ post.date_created.strftime('%Y-%m-%d') }}
+                        {% endif %}
+                    </p> 
                
             </div>
             <div class="card-icons">
@@ -110,17 +134,27 @@
                         <i class="fa-regular fa-heart"></i>
                         <span>Like</span>
                       
-                        <i class="fa-regular fa-message" onclick="toggleCommentInput()"></i>
+                        <i class="fa-regular fa-message" id="toggleCommentForm{{ post.id }}"></i>
                         <span>Comment</span>
-
-                        <span class="comment-count">6 comments</span>
-                        <div class="comment-input" id="commentInput{{ post.id }}">
-                            <input type="text" placeholder="Write a comment">
-                            <button onclick="postComment('{{ post.id }}')">Post</button>
-                          </div>
-                    </div>   
+                        <span class="comment-count"> 
+                            {% if comments_count.get(post.id, 0) == 1 %}
+                            1 comment
+                            {% else %}
+                            {{ comments_count.get(post.id, 0) }} comments
+                            {% endif %}
+                        </span>
+                      
+                      
+                    </div> 
+                    <div class="comment-form" id="commentInput{{ post.id }}">
+                        <form action="{{ url_for('add_comment', post_id=post.id) }}" method="POST">
+                            {{ comment_form.hidden_tag() }}
+                            {{ comment_form.content(class='form-control comment', placeholder='Add a comment..') }}
+                            {{ comment_form.submit(class='btn btn-primary comment-btn') }}
+                        </form>
+                    </div>  
         </div>
-       
+      
   <!-- Modal -->
   <div class="modal fade" id="editDetailsModal{{ post.id }}"  data-bs-keyboard="false" tabindex="-1" 
   aria-labelledby="deleteDetailsButton{{post.id}}" aria-hidden="true">
@@ -179,37 +213,12 @@
     document.addEventListener("DOMContentLoaded", function () {
         document.getElementById('editDetailsButton{{ post.id }}').addEventListener('click', function () {
             var myModal = new bootstrap.Modal(document.getElementById('editDetailsModal{{ post.id }}'));
-
-            // Fetch the post data using AJAX
-            var postId = '{{ post.id }}'; // Assuming you have access to the post ID
-            fetch('/api/get_post/' + postId) // Replace with your actual API endpoint
-                .then(response => response.json())
-                .then(post => {
-                    // Populate the modal fields with the fetched post data
-                    populateModalFields(post);
-                })
-                .catch(error => console.error('Error fetching post data:', error));
             myModal.show();
         });
-
-        // Function to populate title and content fields with post data
-        function populateModalFields(post) {
-            // Get the title and content input elements
-            var titleInput = document.getElementById('title'); // Assuming your title input has an ID of 'title'
-            var contentInput = document.getElementById('content'); // Assuming your content input has an ID of 'content'
-            // Set the values based on post data
-            titleInput.value = post.title;
-            contentInput.value = post.content;
-        }
-    }
-  
-    
-    );
+    });  
 </script>
 
 <!----DELETE MODAL...THIS IS THE MODAL FOR DELETING A POST-->
-<!-- Modal -->
-<!-- Delete Modal -->
 <div class="modal fade" id="deleteDetailsModal{{post.id}}" tabindex="-1" aria-labelledby="deleteDetailsButton{{post.id}}Label" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -243,7 +252,15 @@
             delModal.show();
         });});
 </script>
-        {% endfor %}  
+
+<script>
+    document.getElementById('toggleCommentForm{{ post.id }}').addEventListener('click', function () {
+        var commentForm = document.getElementById('commentInput{{ post.id }}');
+        commentForm.classList.toggle('hidden');
+    });
+</script>
+
+{% endfor %}  
         </div>
         <div>
         </div>
